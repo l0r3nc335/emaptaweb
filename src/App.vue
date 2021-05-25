@@ -19,12 +19,6 @@
         </v-list-item>
         <v-divider></v-divider>
 
-     
-
-
-
-
-
         <!-- Logout -->
         <v-list-item v-if="isLoggedIn" @click="logout" link>
           <v-list-item-icon>

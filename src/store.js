@@ -96,7 +96,7 @@ export default new Vuex.Store({
         commit('logout')
         resolve()
       })
-    },
+    },  
   },
   getters: {
     isLoggedIn: state => state.token != '',

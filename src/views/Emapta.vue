@@ -29,7 +29,7 @@
       :hasDelete="true"
       @edit="editItem"
       @delete="deleteItem"
-      :path="'/projects'"
+      :path="'/agile'"
     />
     
     <v-dialog v-model="itemDialog" :width="width" transition="dialog-top-transition">
@@ -46,122 +46,47 @@
               </v-col>
             </v-row>
             <v-form v-if="dialogName != 'Delete Confirmation'">
-              <!-- Code -->
+              <!-- Description -->
               <v-row>
                 <v-col cols="12">
                   <v-text-field
-                    v-model="form.code"
+                    v-model="form.description"
                     :counter="350"
-                    label="Code"
-                    @input="$v.form.code.$touch()"
-                    @blur="$v.form.code.$touch()"
+                    label="Description"
+                    @input="$v.form.description.$touch()"
+                    @blur="$v.form.description.$touch()"
                     required
-                    :error-messages="codeErrors"
+                    :error-messages="descriptionErrors"
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <!-- Name -->
+              <!-- type -->
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
-                    v-model="form.name"
+                  <!--v-text-field
+                    v-model="form.type"
                     :counter="350"
-                    label="Name"
-                    @input="$v.form.name.$touch()"
-                    @blur="$v.form.name.$touch()"
+                    label="Type"
+                    @input="$v.form.type.$touch()"
+                    @blur="$v.form.type.$touch()"
                     required
-                    :error-messages="nameErrors"
-                  ></v-text-field>
+                    :error-messages="typeErrors"
+                  ></v-text-field-->
+
+                  <v-select
+                    item-text="name"
+                    item-value="name"
+                    v-model="form.type"
+                    :items="types"
+                    label="Select a type"
+                  />
                 </v-col>
               </v-row>
-              <!-- Dinstar URL -->
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="form.configuration.dinstar_url"
-                    :counter="100"
-                    label="Dinstar URL"
-                    @input="$v.form.configuration.dinstar_url.$touch()"
-                    @blur="$v.form.configuration.dinstar_url.$touch()"
-                    required
-                    :error-messages="dinstarUrlErrors"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <!-- Receive Ports -->
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="form.configuration.receive_ports"
-                    :counter="100"
-                    label="Receive Ports"
-                    @input="$v.form.configuration.receive_ports.$touch()"
-                    @blur="$v.form.configuration.receive_ports.$touch()"
-                    required
-                    :error-messages="receivePortsErrors"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <!-- Globe Ports -->
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="form.configuration.smart_ports"
-                    :counter="100"
-                    label="Smart Ports"
-                    @input="$v.form.configuration.smart_ports.$touch()"
-                    @blur="$v.form.configuration.smart_ports.$touch()"
-                    required
-                    :error-messages="smartPortsErrors"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <!-- Smart Ports -->
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="form.configuration.globe_ports"
-                    :counter="100"
-                    label="Globe Ports"
-                    @input="$v.form.configuration.globe_ports.$touch()"
-                    @blur="$v.form.configuration.globe_ports.$touch()"
-                    required
-                    :error-messages="globePortsErrors"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <!-- Token -->
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="form.configuration.token"
-                    :counter="100"
-                    label="Token"
-                    @input="$v.form.configuration.token.$touch()"
-                    @blur="$v.form.configuration.token.$touch()"
-                    required
-                    :error-messages="tokenErrors"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <!-- Auto Response -->
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="form.configuration.auto_response"
-                    :counter="255"
-                    label="Auto Response"
-                    @input="$v.form.configuration.auto_response.$touch()"
-                    @blur="$v.form.configuration.auto_response.$touch()"
-                    required
-                    :error-messages="autoResponseErrors"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
+
             </v-form>
             <v-row v-if="dialogName == 'Delete Confirmation'">
               <v-col cols="12" v-if="showSubmitButton">
-                <p v-html="'Are you sure you want to delete ' + form.name + '?'"></p>
+                <p v-html="'Are you sure you want to delete ' + form.description + '?'"></p>
               </v-col>
             </v-row>
           </v-card-text>
@@ -197,49 +122,14 @@ export default {
   components: { DataTable, Loading },
   validations: {
     form: {
-      code: {
+      description: {
         required,
         minLength: minLength(4),
         maxLength: maxLength(350),
-      },
-      name: {
-        required,
-        minLength: minLength(4),
-        maxLength: maxLength(350),
-      },
-      configuration: {
-        dinstar_url: {
-          required,
-          minLength: minLength(4),
-          maxLength: maxLength(100),
-        },
-        receive_ports: {
-          required,
-          minLength: minLength(1),
-          maxLength: maxLength(100),
-        },
-        smart_ports: {
-          required,
-          minLength: minLength(1),
-          maxLength: maxLength(100),
-        },
-        globe_ports: {
-          required,
-          minLength: minLength(1),
-          maxLength: maxLength(100),
-        },
-        token: {
-          required,
-          minLength: minLength(4),
-          maxLength: maxLength(100),
-        },
-        auto_response: {
-          minLength: minLength(0),
-          maxLength: maxLength(255),
-        },
       },
     },
   },
+
   data: () => ({
     activeId: "",
     showSubmitButton: false,
@@ -256,37 +146,30 @@ export default {
     itemDialog: false,
     dialogName: "",
     form: {
-      code: "",
-      name: "",
-      configuration: {
-        dinstar_url: "",
-        receive_ports: "",
-        smart_ports: "",
-        globe_ports: "",
-        token: "",
-        auto_response: "",
-      },
+      description: "",
+      type:""
     },
+
+    types: [
+      {
+        name: "principle",
+      },
+      {
+        name: "values",
+      }
+    ]
   }),
   methods: {
     openAdd() {
       this.$v.$reset();
       this.submitLabel = "Submit";
       this.showSubmitButton = true;
-      this.dialogName = "Add Project";
+      this.dialogName = "Add Data";
       this.alert.show = false;
       this.itemDialog = true;
       this.form = {
-        code: "",
-        name: "",
-        configuration: {
-          dinstar_url: "",
-          receive_ports: "",
-          smart_ports: "",
-          globe_ports: "",
-          token: "",
-          auto_response: "",
-        },
+        description: "",
+        type: "",
       };
     },
     generateTable() {
@@ -298,6 +181,7 @@ export default {
       this.submitLabel = "Update";
       this.showSubmitButton = true;
       this.form = item;
+      console.log(item);
       this.activeId = item.id;
       this.alert.show = false;
       this.itemDialog = true;
@@ -317,13 +201,13 @@ export default {
       this.isLoading = true;
       this.$refs.loading.open();
       let url = this.$api;
-      if (this.dialogName == "Add Project") {
-        url += "/projects";
+      if (this.dialogName == "Add Data") {
+        url += "/agile";
       } else if (this.dialogName == "Delete Confirmation") {
-        url += "/projects/" + this.activeId;
+        url += "/agile/" + this.activeId;
         this.form._method = "DELETE";
       } else {
-        url += "/projects/" + this.activeId;
+        url += "/agile/" + this.activeId;
         this.form._method = "PUT";
       }
       this.$v.$touch();
@@ -342,6 +226,8 @@ export default {
         this.$http
           .post(url, this.form)
           .then((response) => {
+            console.log(this.form);
+            console.log(response);
             setTimeout(() => {
               this.alert = {
                 show: true,
@@ -374,87 +260,17 @@ export default {
     this.generateTable();
   },
   computed: {
-    codeErrors() {
+    descriptionErrors() {
       const errors = [];
-      if (!this.$v.form.code.$dirty) return errors;
-      !this.$v.form.code.required && errors.push("Code is required.");
-      !this.$v.form.code.maxLength &&
-        errors.push("Code must be at most 350 characters long");
-      !this.$v.form.code.minLength &&
-        errors.push("Code must be at least 4 characters long");
+      if (!this.$v.form.description.$dirty) return errors;
+      !this.$v.form.description.required && errors.push("Description is required.");
+      !this.$v.form.description.maxLength &&
+        errors.push("Description must be at most 350 characters long");
+      !this.$v.form.description.minLength &&
+        errors.push("Description must be at least 4 characters long");
       return errors;
     },
-    nameErrors() {
-      const errors = [];
-      if (!this.$v.form.name.$dirty) return errors;
-      !this.$v.form.name.required && errors.push("Name is required.");
-      !this.$v.form.name.maxLength &&
-        errors.push("Name must be at most 350 characters long");
-      !this.$v.form.name.minLength &&
-        errors.push("Name must be at least 4 characters long");
-      return errors;
-    },
-    dinstarUrlErrors() {
-      const errors = [];
-      if (!this.$v.form.configuration.dinstar_url.$dirty) return errors;
-      !this.$v.form.configuration.dinstar_url.required &&
-        errors.push("Dinstar URL is required.");
-      !this.$v.form.configuration.dinstar_url.maxLength &&
-        errors.push("Dinstar URL must be at most 100 characters long");
-      !this.$v.form.configuration.dinstar_url.minLength &&
-        errors.push("Dinstar URL must be at least 4 characters long");
-      return errors;
-    },
-    receivePortsErrors() {
-      const errors = [];
-      if (!this.$v.form.configuration.receive_ports.$dirty) return errors;
-      !this.$v.form.configuration.receive_ports.required &&
-        errors.push("Receive Ports is required.");
-      !this.$v.form.configuration.receive_ports.maxLength &&
-        errors.push("Receive Ports must be at most 100 characters long");
-      !this.$v.form.configuration.receive_ports.minLength &&
-        errors.push("Receive Ports must be at least 1 characters long");
-      return errors;
-    },
-    smartPortsErrors() {
-      const errors = [];
-      if (!this.$v.form.configuration.smart_ports.$dirty) return errors;
-      !this.$v.form.configuration.smart_ports.required &&
-        errors.push("Smart Ports is required.");
-      !this.$v.form.configuration.smart_ports.maxLength &&
-        errors.push("Smart Ports must be at most 100 characters long");
-      !this.$v.form.configuration.smart_ports.minLength &&
-        errors.push("Smart Ports must be at least 1 characters long");
-      return errors;
-    },
-    globePortsErrors() {
-      const errors = [];
-      if (!this.$v.form.configuration.globe_ports.$dirty) return errors;
-      !this.$v.form.configuration.globe_ports.required &&
-        errors.push("Globe Ports is required.");
-      !this.$v.form.configuration.globe_ports.maxLength &&
-        errors.push("Globe Ports must be at most 100 characters long");
-      !this.$v.form.configuration.globe_ports.minLength &&
-        errors.push("Globe Ports must be at least 1 characters long");
-      return errors;
-    },
-    tokenErrors() {
-      const errors = [];
-      if (!this.$v.form.configuration.token.$dirty) return errors;
-      !this.$v.form.configuration.token.required && errors.push("Token is required.");
-      !this.$v.form.configuration.token.maxLength &&
-        errors.push("Token must be at most 100 characters long");
-      !this.$v.form.configuration.token.minLength &&
-        errors.push("Token must be at least 4 characters long");
-      return errors;
-    },
-    autoResponseErrors() {
-      const errors = [];
-      if (!this.$v.form.configuration.auto_response.$dirty) return errors;
-      !this.$v.form.configuration.auto_response.maxLength &&
-        errors.push("Auto Response must be at most 255 characters long");
-      return errors;
-    },
+    
     width() {
       let breakpointName = this.$vuetify.breakpoint.name;
       if (breakpointName == "xs") {

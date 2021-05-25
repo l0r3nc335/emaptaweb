@@ -121,8 +121,9 @@ export default {
           .then((response) => {
             setTimeout(() => {
               this.$router.push({
-                name: "projects",
+                name: "users",
               });
+              console.log(response);
               this.isLoading = false;
             }, 2000);
           })
