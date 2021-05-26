@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import store from './store.js'
 /** Home(Login) Import */
 import Home from './views/Home.vue'
-import Users from './views/Users.vue'
 import Emapta from './views/Emapta.vue'
 
 /** Common Imports End Here */
@@ -25,12 +24,6 @@ let router = new Router({
       name: 'emapta',
       meta: { requiresAuth: true, title: 'Emapta Test' },
       component: Emapta
-    },
-    {
-      path: '/users',
-      name: 'users',
-      meta: { requiresAuth: true, title: 'User Management' },
-      component: Users
     },
     {
       path: "/*",
