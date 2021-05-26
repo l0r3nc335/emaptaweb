@@ -5,8 +5,6 @@ import store from './store.js'
 import Home from './views/Home.vue'
 import Users from './views/Users.vue'
 import Emapta from './views/Emapta.vue'
-import ResetPassword from './views/ResetPassword.vue'
-import ForgotPassword from './views/ForgotPassword.vue'
 
 /** Common Imports End Here */
 Vue.use(Router)
@@ -33,18 +31,6 @@ let router = new Router({
       name: 'users',
       meta: { requiresAuth: true, title: 'User Management' },
       component: Users
-    },
-    {
-      path: '/forgot-password',
-      name: 'forgot-password',
-      meta: { requiresAuth: false, title: 'Forgot Password' },
-      component: ForgotPassword
-    },
-    {
-      path: '/reset-password/:token',
-      name: 'reset-password',
-      meta: { requiresAuth: false, title: 'Reset Password' },
-      component: ResetPassword
     },
     {
       path: "/*",
